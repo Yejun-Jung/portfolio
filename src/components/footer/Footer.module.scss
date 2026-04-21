@@ -1,0 +1,25 @@
+@use '../../styles/variables' as *;
+
+.footer {
+    background-color: var(--color-bg-muted);
+    border-top: 1px solid var(--color-border);
+    .inner {
+        padding: $space-3;
+        display: flex;
+        justify-content: space-between;
+        font-size: $font-size-xs;
+        .copy {
+            color: var(--color-text-muted);
+        }
+        .links {
+            display: flex;
+            gap: $space-1;
+            a {
+                color: var(--color-text-muted);
+                &:hover {
+                    color: var(--color-primary);
+                }
+            }
+        }
+    }
+}
