@@ -1,10 +1,23 @@
 import React from "react";
 import styles from "../../pages/about/About.module.scss";
+import { motion as Motion } from "framer-motion";
+import {
+  contentVariants,
+  itemVariants,
+  visualVariants,
+} from "../../utils/aniValue";
 const AboutCard = ({ icons }) => {
   const IconUser = icons.user;
 
   return (
-    <article aria-labelledby="about-card-title" className={styles.card}>
+    <Motion.article
+      variants={visualVariants}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ amount: 0.3 }}
+      aria-labelledby="about-card-title"
+      className={styles.card}
+    >
       <div className={styles.cardHeader}>
         <span className={styles.cardIcon}>
           <IconUser />
@@ -30,7 +43,7 @@ const AboutCard = ({ icons }) => {
           honest — fast, accessible, and easy to reason about.
         </p>
       </div>
-    </article>
+    </Motion.article>
   );
 };
 
