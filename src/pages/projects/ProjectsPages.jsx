@@ -1,18 +1,20 @@
 import React, { useMemo, useState } from "react";
 import styles from "./ProjectsPages.module.scss";
 import FeaturedProjectCard from "../../components/featuredProjectCard/FeaturedProjectCard";
-import { useReducedMotion } from "framer-motion";
+import { motion as Motion, useReducedMotion } from "framer-motion";
 import {
   projectFilters,
   projectsPageItems,
 } from "../../utils/projectsPageData";
+import { projectItemMotion, projectItemTransition } from "../../utils/aniValue";
+
 const ProjectsPages = () => {
   const [filter, setFilter] = useState("all");
 
   const shouldReduceMotion = useReducedMotion();
 
   const visible = useMemo(() => {
-    if (filter == "all") return projectsPageItems;
+    if (filter === "all") return projectsPageItems;
 
     return projectsPageItems.filter((p) => p.categories.includes(filter));
   }, [filter]);
@@ -42,7 +44,7 @@ const ProjectsPages = () => {
               role="tab"
               aria-selected={filter === id}
               onClick={() => setFilter(id)}
-              className={`${styles.filterBtn} ${filter == id ? styles.filterBtnActive : ""}`}
+              className={`${styles.filterBtn} ${filter === id ? styles.filterBtnActive : ""}`}
             >
               {label}
             </button>
@@ -53,8 +55,17 @@ const ProjectsPages = () => {
           <p>No project in this category yet</p>
         ) : (
           <div className={styles.grid}>
-            {visible.map((project) => (
-              <div key={project.id}>
+            {visible.map((project, index) => (
+              <Motion.div
+                layout={!shouldReduceMotion}
+                {...projectItemMotion}
+                transition={
+                  projectItemMotion
+                    ? { ...projectItemTransition, delay: index * 0.05 }
+                    : undefined
+                }
+                key={project.id}
+              >
                 <FeaturedProjectCard
                   title={project.title}
                   description={project.description}
@@ -64,9 +75,9 @@ const ProjectsPages = () => {
                   meta={project.meta}
                   demoHref={project.demoHref}
                   codeHref={project.codeHref}
-                  domoLabel={project.demoLabel}
+                  demoLabel={project.demoLabel}
                 />
-              </div>
+              </Motion.div>
             ))}
           </div>
         )}
