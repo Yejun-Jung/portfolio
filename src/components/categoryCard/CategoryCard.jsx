@@ -1,31 +1,49 @@
-import React from 'react'
-import styles from './CategoryCard.module.scss'
-import ProgressBar from '../progressBar/ProgressBar'
+import React from "react";
+import styles from "./CategoryCard.module.scss";
+import ProgressBar from "../progressBar/ProgressBar";
+
 const CategoryCard = ({
-    title,
-    accent = 'primary',
-    skills = [],
-    progress=1,
-
+  title,
+  subtitle,
+  accent = "primary",
+  skills = [],
+  progress = 1,
+  tags = [],
+  icon,
+  iconColor,
 }) => {
-    return (
-        <article className={styles.card}>
-            <h3 className={styles.title}>
-                {title}
-            </h3>
-            <div className={styles.list}>
-                {skills.map(({ name, percent,showPercent }) => (
-                    <ProgressBar
-                        key={name}
-                        label={name}
-                        percent={percent}
-                        accent={accent}
-                        showPercent={showPercent !==false}
-                    />
-                ))}
-            </div>
-        </article>
-    )
-}
+  return (
+    <article
+      style={iconColor ? { "--icon-color": iconColor } : undefined}
+      className={styles.card}
+    >
+      <div className={styles.head}>
+        {icon ? <div className={styles.iconWrap}>{icon}</div> : null}
+        <div className={styles.headText}>
+          <h3 className={styles.title}>{title}</h3>
+          {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
+        </div>
+      </div>
+      <div className={styles.list}>
+        {skills.map(({ name, percent, showPercent }) => (
+          <ProgressBar
+            key={name}
+            label={name}
+            percent={percent}
+            accent={accent}
+            showPercent={showPercent !== false}
+          />
+        ))}
+      </div>
+      {tags.length > 0 && (
+        <div className={styles.tagsRow}>
+          {tags.map((tag, index) => (
+            <span key={index}>{tag}</span>
+          ))}
+        </div>
+      )}
+    </article>
+  );
+};
 
-export default CategoryCard
+export default CategoryCard;
